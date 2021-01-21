@@ -50,16 +50,15 @@ public class UserController {
         return userService.getInfo(token);
     }
 
-<<<<<<< HEAD
     @PostMapping("update")
     public ResponseVo<User> update(@RequestParam String token,@RequestBody UserUpdateForm userUpdateForm){
         return userService.update(token,userUpdateForm);
-=======
+    }
+
     @GetMapping("getUserList")
     public ResponseVo<CommonPage> getUserList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize){
         Integer loginUserId = userInfoWrapper.getLoginUserId();
         return userService.getUserList(loginUserId, pageNum, pageSize);
->>>>>>> dacb307546e130a1c43dd34599b118a0cfad7f0a
     }
 }

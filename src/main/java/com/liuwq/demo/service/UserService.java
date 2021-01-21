@@ -23,9 +23,7 @@ public interface UserService {
      */
     ResponseVo<User> getInfo(String token);
 
-<<<<<<< HEAD
     ResponseVo<User> update(String token, UserUpdateForm userUpdateForm);
-=======
+
     ResponseVo<CommonPage> getUserList(Integer loginUserId, Integer pageNum, Integer pageSize);
->>>>>>> dacb307546e130a1c43dd34599b118a0cfad7f0a
 }
