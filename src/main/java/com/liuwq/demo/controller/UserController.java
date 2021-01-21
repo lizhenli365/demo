@@ -6,6 +6,7 @@ import com.liuwq.demo.service.UserService;
 import com.liuwq.demo.vo.ResponseVo;
 import form.UserLoginForm;
 import form.UserRegisterForm;
+import form.UserUpdateForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ public class UserController {
 
     @PostMapping("register")
     public ResponseVo register(@Validated @RequestBody UserRegisterForm userForm, BindingResult bindingResult){
-        System.out.println("----------- 3.环绕通知 目标方法 -----------");
+
         if (bindingResult != null && bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldError();
             if(fieldError != null){
@@ -43,5 +44,10 @@ public class UserController {
     @PostMapping("getInfo")
     public ResponseVo<User> getInfo(@RequestParam String token){
         return userService.getInfo(token);
+    }
+
+    @PostMapping("update")
+    public ResponseVo<User> update(@RequestParam String token,@RequestBody UserUpdateForm userUpdateForm){
+        return userService.update(token,userUpdateForm);
     }
 }

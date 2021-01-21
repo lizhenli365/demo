@@ -2,12 +2,11 @@ package com.liuwq.demo.controller;
 
 
 import com.liuwq.demo.service.ICategoryService;
+import com.liuwq.demo.vo.CategoryIdVo;
 import com.liuwq.demo.vo.CategoryVo;
 import com.liuwq.demo.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,12 @@ public class CategoryController {
 	public ResponseVo<List<CategoryVo>> selectAll() {
 		return icategoryService.selectAll();
 	}
+
+	@PutMapping("/selectCategory/{id}")
+	public ResponseVo<CategoryIdVo> selectCategory(@PathVariable Integer id) {
+		return icategoryService.selectCategory(id);
+	}
+
 
 //	@GetMapping("all2")
 //	public Set<Integer>  selectAll2() {

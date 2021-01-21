@@ -1,12 +1,12 @@
 package com.liuwq.demo.service.impl;
 
-import com.liuwq.demo.annotation.MyAnnotation;
 import com.liuwq.demo.dao.UserMapper;
 import com.liuwq.demo.entity.User;
 import com.liuwq.demo.enums.ResponseEnum;
 import com.liuwq.demo.enums.RoleEnum;
 import com.liuwq.demo.service.UserService;
 import com.liuwq.demo.vo.ResponseVo;
+import form.UserUpdateForm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
                user.getPassword().getBytes(StandardCharsets.UTF_8)
        ));
 
+
        int resultCount = userMapper.insertSelective(user);
        if (resultCount == 0) {
            return ResponseVo.error(ResponseEnum.ERROR);
@@ -86,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
     };*/
 
-    @MyAnnotation(name = "lzl", age = "2")
+//    @MyAnnotation(name = "lzl", age = "2")
     public ResponseVo<String> login(String username, String password){
         User user =  userMapper.selectByUsername(username);
         if(user!=null){
@@ -112,6 +113,40 @@ public class UserServiceImpl implements UserService {
             // 根据token，从redis中获取用户id
             User user = (User) redisTemplate.opsForValue().get(token);
             return ResponseVo.success(user);
+        }
+        return ResponseVo.error(ResponseEnum.TOKEN_INVALID_ERROR);
+
+    };
+    /**
+     * 修改
+     */
+    public ResponseVo<User> update(String token,UserUpdateForm userUpdateForm){
+
+        if(!StringUtils.isEmpty(token)){
+            User user = (User) redisTemplate.opsForValue().get(token);
+
+            if(user!=null){
+                user.setUsername(userUpdateForm.getUsername());
+
+                user.setPassword( DigestUtils.md5DigestAsHex(
+                        userUpdateForm.getPassword().getBytes(StandardCharsets.UTF_8)
+                ));
+                user.setEmail(userUpdateForm.getEmail());
+
+
+                int resultCount =  userMapper.updateByPrimaryKey(user);
+
+                if (resultCount == 0) {
+                    return ResponseVo.error(ResponseEnum.ERROR);
+                }
+
+                redisTemplate.opsForValue().set(token, user, 60 * 60 * 24 * 7, TimeUnit.SECONDS);
+                user.setPassword("");
+                return ResponseVo.success(user);
+
+            }
+        }else{
+            return ResponseVo.error(ResponseEnum.TOKEN_INVALID_ERROR);
         }
         return ResponseVo.error(ResponseEnum.TOKEN_INVALID_ERROR);
 

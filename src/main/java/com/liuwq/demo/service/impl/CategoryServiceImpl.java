@@ -4,6 +4,7 @@ import com.liuwq.demo.dao.CategoryMapper;
 import com.liuwq.demo.entity.Category;
 import com.liuwq.demo.enums.ResponseEnum;
 import com.liuwq.demo.service.ICategoryService;
+import com.liuwq.demo.vo.CategoryIdVo;
 import com.liuwq.demo.vo.CategoryVo;
 import com.liuwq.demo.vo.ResponseVo;
 import org.springframework.beans.BeanUtils;
@@ -58,8 +59,6 @@ public class CategoryServiceImpl implements ICategoryService {
                     subCategoryVolist.add(subCategoryVo);
                   //
                 }
-
-
             }
             subCategoryVolist.sort(Comparator.comparing(CategoryVo::getSortOrder).reversed());
             categoryVoList.setSubCategories(subCategoryVolist);
@@ -74,6 +73,19 @@ public class CategoryServiceImpl implements ICategoryService {
         findSubCategoryId(id,resultSet,categories);
     }
 
+    @Override
+    public ResponseVo<CategoryIdVo> selectCategory(Integer id) {
+
+       Category category = categoryMapper.selectByPrimaryKey(id);
+
+       if(category!=null){
+           CategoryIdVo categoryIdVo =new CategoryIdVo();
+           BeanUtils.copyProperties(category,categoryIdVo);
+           return ResponseVo.success(categoryIdVo);
+       }
+        return ResponseVo.error(ResponseEnum.ERROR);
+    };
+
     public void findSubCategoryId(Integer id, Set<Integer> resultSet,List<Category> categories){
         for (Category category:categories){
             if(category.getParentId().equals(id)){
@@ -83,5 +95,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
         }
     }
+
+
 
 }

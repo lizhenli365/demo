@@ -68,7 +68,7 @@ public class ProductServiceImpl implements IProductService {
 		}
 
 
-		//请求
+		//请求 pageNum第几页  pageSize 每页多少
 		PageHelper.startPage(pageNum, pageSize);
 		List<Product> productList = productMapper.selectByCategoryIdSet(categoryIdSet);
 
@@ -79,6 +79,7 @@ public class ProductServiceImpl implements IProductService {
 		    BeanUtils.copyProperties(product,productVo);
 			ProductVoList.add(productVo);
 		}
+
 		PageInfo pageInfo = new PageInfo<>(productList);
 		pageInfo.setList(ProductVoList);
 

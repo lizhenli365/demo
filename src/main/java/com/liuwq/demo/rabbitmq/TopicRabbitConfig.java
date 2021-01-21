@@ -34,7 +34,7 @@ public class TopicRabbitConfig {
         return new TopicExchange("topicExchange");
     }
  
- 
+ //通配符
     //将firstQueue和topicExchange绑定,而且绑定的键值为topic.man
     //这样只要是消息携带的路由键是topic.man,才会分发到该队列
     @Bean

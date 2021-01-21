@@ -90,18 +90,20 @@ public class CartServiceImpl implements ICartService {
 
 	@Override
 	public ResponseVo<CartVo> list(Integer uid) {
+		CartVo cartVo = new CartVo();
+
+		//值初始化
+		boolean selectAll = true;
+		Integer cartTotalQuantity = 0;
+		BigDecimal cartTotalPrice = BigDecimal.ZERO;
+		List<CartProductVo> cartProductVoList = new ArrayList<>();
+
+
 		HashOperations<String,String,String>  opsForHash =redisTemplate.opsForHash();
 		String redisKey=String.format(CART_REDIS_KEY_TEMPLATE,uid);
 		Map<String,String> entries= opsForHash.entries(redisKey);
 
 
-		boolean selectAll = true;
-		Integer cartTotalQuantity = 0;
-		BigDecimal cartTotalPrice = BigDecimal.ZERO;
-
-		CartVo cartVo = new CartVo();
-
-		List<CartProductVo> cartProductVoList = new ArrayList<>();
 
 		for(Map.Entry<String,String> entry:entries.entrySet()){
 			Integer productId  =  Integer.valueOf(entry.getKey());

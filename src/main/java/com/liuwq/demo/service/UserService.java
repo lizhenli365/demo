@@ -2,6 +2,7 @@ package com.liuwq.demo.service;
 
 import com.liuwq.demo.entity.User;
 import com.liuwq.demo.vo.ResponseVo;
+import form.UserUpdateForm;
 
 public interface UserService {
     /**
@@ -20,4 +21,6 @@ public interface UserService {
      * @return
      */
     ResponseVo<User> getInfo(String token);
+
+    ResponseVo<User> update(String token, UserUpdateForm userUpdateForm);
 }
