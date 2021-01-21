@@ -23,7 +23,7 @@ public class LogAop {
     @Pointcut("execution(* com.liuwq.demo.controller.*.*(..))")
     public void pointCut(){
     }
-//---------------------------------------------------------
+
     @Before("pointCut()")
     public void beforeAdvice(JoinPoint joinPoint){
         System.out.println("----------- 2.前置通知 -----------");
@@ -58,7 +58,7 @@ public class LogAop {
      */
     @Around("pointCut()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-// 接收到请求，记录请求内容
+        // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         System.out.println("----------- 1.前环绕通知 -----------");

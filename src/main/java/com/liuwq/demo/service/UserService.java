@@ -1,5 +1,6 @@
 package com.liuwq.demo.service;
 
+import com.liuwq.demo.common.CommonPage;
 import com.liuwq.demo.entity.User;
 import com.liuwq.demo.vo.ResponseVo;
 import form.UserUpdateForm;
@@ -22,5 +23,9 @@ public interface UserService {
      */
     ResponseVo<User> getInfo(String token);
 
+<<<<<<< HEAD
     ResponseVo<User> update(String token, UserUpdateForm userUpdateForm);
+=======
+    ResponseVo<CommonPage> getUserList(Integer loginUserId, Integer pageNum, Integer pageSize);
+>>>>>>> dacb307546e130a1c43dd34599b118a0cfad7f0a
 }
